@@ -1,0 +1,2 @@
+tsc --init
+will generate tsconfig.json file
