@@ -1,7 +1,9 @@
 import express, { Request, Response } from 'express';
-import { body, validationResult } from 'express-validator'; // https://express-validator.github.io/docs/
-import { RequestValidationError } from '../errors/requestValidtationError';
-import { DatabaseConnectionError } from '../errors/databaseConnectionError';
+import { body } from 'express-validator'; // https://express-validator.github.io/docs/
+import jwt from 'jsonwebtoken'; // https://www.npmjs.com/package/jsonwebtoken
+import { User } from '../models/user';
+import { BadRequestError } from '../errors/badRequestError';
+import { validateRequest } from '../middlewares/validateRequest';
 
 // create router instance
 const router = express.Router();
@@ -17,18 +19,33 @@ router.post(
 			.isLength({ min: 4, max: 20 })
 			.withMessage('Password must be between 4-20 characters'),
 	],
-
+	validateRequest,
 	async (req: Request, res: Response) => {
-		const errors = validationResult(req);
+		const { email, password } = req.body;
+		const existingUser = await User.findOne({ email });
 
-		if (!errors.isEmpty()) {
-			throw new RequestValidationError(errors.array());
+		if (existingUser) {
+			throw new BadRequestError('Email in use');
 		}
 
-		console.log('Creating a user...');
-		throw new DatabaseConnectionError();
+		const user = User.build({ email, password });
+		await user.save();
 
-		res.send({});
+		// generate jwt
+		const userJwt = jwt.sign(
+			{
+				id: user.id,
+				email: user.email,
+			},
+			process.env.JWT_KEY!, // ! means typescript ignore
+		);
+
+		// store on the session obj
+		req.session = {
+			jwt: userJwt,
+		};
+
+		res.status(201).send(user);
 	},
 );
 

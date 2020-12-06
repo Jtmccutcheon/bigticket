@@ -6,7 +6,7 @@ spec:
   replicas: 1
   selector:
     matchLabels:
-      app: auth
+      app: auth 
   template:
     metadata:
       labels:
@@ -15,6 +15,13 @@ spec:
       containers:
         - name: auth
           image: jtmccutcheon/auth
+          env:
+            - name: JWT_KEY
+              valueFrom:
+                  secretKeyRef:
+                    name: jwt-secret
+                    key: JWT_KEY
+
 ---
 apiVersion: v1
 kind: Service
