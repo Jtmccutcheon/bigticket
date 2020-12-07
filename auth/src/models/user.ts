@@ -51,7 +51,7 @@ userSchema.pre('save', async function (done) {
 		const hashed = await Password.toHash(this.get('password'));
 		this.set('password', hashed);
 	}
-	done();
+	done;
 });
 
 // how to build a method on mongoose model
