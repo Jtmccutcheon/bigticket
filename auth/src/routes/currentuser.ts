@@ -1,21 +1,11 @@
 import express from 'express';
 import jwt from 'jsonwebtoken';
+import { currentUser } from '../middlewares/currentUser';
 
 const router = express.Router();
 
-router.get('/api/users/currentuser', (req, res) => {
-	// if the session doesnt exist with our token on it
-	if (!req.session?.jwt) {
-		return res.send({ currentUser: null });
-	}
-
-	try {
-		// verify takes in two arguments the token from the user and our secret
-		const payload = jwt.verify(req.session.jwt, process.env.JWT_KEY!);
-		res.send({ currentUser: payload });
-	} catch (error) {
-		res.send({ currentUser: null });
-	}
+router.get('/api/users/currentuser', currentUser, (req, res) => {
+	res.send({ currentUser: req.currentUser || null }); // null if we dont pass current User middleware
 });
 
 export { router as currentUserRouter };
