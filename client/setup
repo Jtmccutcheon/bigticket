@@ -1,0 +1,6 @@
+npm init -y
+npm i react react-dom next
+
+file names in pages directory = route names
+
+made a script called dev to start dev server
