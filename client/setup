@@ -4,3 +4,21 @@ npm i react react-dom next
 file names in pages directory = route names
 
 made a script called dev to start dev server
+
+create dockerfile
+build image 
+push image
+create dockerignore for node_modules and .next directories
+
+set up kubernetes and skaffold config
+created client-depl.yaml
+add client image to skaffold.yaml right underneat auth image
+add path for cleint in ingress-srv.yaml - order of the paths is important because
+                                          of the regex ingress trys to match the path
+                                          against our pathnames so we want our most generic
+                                          to be last will most likely always be the client at the root/
+
+
+now our frontend can run in browser if chrome wont let you type thisisunsafe and it should by pass
+
+create next.config.js

@@ -1,0 +1,26 @@
+how to get running locally
+npm install -g typescript
+
+you will need docker desktop running with kubernetes enabled in the settings
+you will also need a dockerhub account and go through the infra/k8s yaml files
+and change all the images from jtmccutcheon/whatever to your own
+https://www.docker.com/products/docker-desktop
+
+
+run this command to install ingress nginx it will handle our kubernetes cluster link to docs https://kubernetes.github.io/ingress-nginx/deploy/
+kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v0.41.2/deploy/static/provider/cloud/deploy.yaml
+
+
+install skaffold this will handle our cluster for local development
+https://skaffold.dev/docs/install/
+skaffold dev to run server must have docker desktop running with kubernetes enabled
+
+
+tsc --init
+will generate tsconfig.json file
+
+
+how to create an env variable 
+$ kubectl create secret generic jwt-secret --from-literal=JWT_KEY=<what ever you want here> allegedyly
+kubectl get sercrets
+
