@@ -1,7 +1,33 @@
 import 'bootstrap/dist/css/bootstrap.css';
+import buildClient from '../api/buildClient';
+const AppComponent = ({ Component, pageProps, currentUser }) => {
+	// we can also put components that render
+	// on every page in here
 
-const App = ({ Component, pageProps }) => {
-	return <Component {...pageProps} />;
+	return (
+		<>
+			Header {currentUser.email}
+			<Component {...pageProps} />
+		</>
+	);
 };
 
-export default App;
+// in next js we cant get props inside our component
+// we have to do that in this function
+// and we will have access to it as props normally
+AppComponent.getInitialProps = async (appContext) => {
+	const client = buildClient(appContext.ctx);
+	const { data } = await client.get('/api/users/currentuser');
+
+	let pageProps = {};
+	if (appContext.Component.getInitialProps) {
+		pageProps = await appContext.Component.getInitialProps(appContext.ctx);
+	}
+
+	return {
+		pageProps,
+		...data,
+	};
+};
+
+export default AppComponent;
