@@ -1,12 +1,14 @@
 import 'bootstrap/dist/css/bootstrap.css';
 import buildClient from '../api/buildClient';
+import Header from '../components/Header';
+
 const AppComponent = ({ Component, pageProps, currentUser }) => {
 	// we can also put components that render
 	// on every page in here
 
 	return (
 		<>
-			Header {currentUser.email}
+			<Header currentUser={currentUser} />
 			<Component {...pageProps} />
 		</>
 	);
