@@ -1,7 +1,10 @@
 import axios from 'axios';
 
-//
-
+// this decides if it is the client in a browser
+// making a request or if it is our server using
+// next js to make a request next js does not
+// automatically send headers that will tell ingress-nginx
+// where to send the request
 const buildClient = ({ req }) => {
 	if (typeof window === 'undefined') {
 		// we are on the server

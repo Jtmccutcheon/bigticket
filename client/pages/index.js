@@ -1,8 +1,10 @@
 import buildClient from '../api/buildClient';
 const LandingPage = ({ currentUser }) => {
-	console.log(currentUser);
-
-	return <h1>lading page</h1>;
+	return currentUser ? (
+		<h1>you are signed in</h1>
+	) : (
+		<h1>you are not signed in</h1>
+	);
 };
 
 // in next js we cant get props inside our component
