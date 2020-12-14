@@ -22,3 +22,7 @@ add path for cleint in ingress-srv.yaml - order of the paths is important becaus
 now our frontend can run in browser if chrome wont let you type thisisunsafe and it should by pass
 
 create next.config.js
+
+create _app.js very particualr to next for installing global styles to next
+
+next will require extra configuration to get inital props to componenents
